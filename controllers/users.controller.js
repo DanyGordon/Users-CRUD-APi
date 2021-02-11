@@ -2,12 +2,12 @@ const Users = require('../models/user.model');
 const Cars = require('../models/car.model');
 
 exports.getAll = async (req, res, next) => {
-  	try {
-    	    	const users = await Users.find({}).populate('cars');
-    	    	res.status(200).json(users);
-  	} catch (error) {
-    		next(error);   
-  	}   
+	try {
+		const users = await Users.find({}).populate('cars');
+		res.status(200).json(users);
+	} catch (error) {
+		next(error);   
+	}
 }
 
 exports.getById = async (req, res, next) => {
@@ -45,7 +45,11 @@ exports.deleteById = async (req, res, next) => {
 exports.updateById = async (req, res, next) => {
 	try {
 		const updatedUser = await Users.findByIdAndUpdate(req.params.uid, { $set: req.body }, { new: true }).populate('cars');
-		res.status(200).json(updatedUser);
+		if (updatedUser !== null) {
+			res.status(200).json(updatedUser);
+		} else {
+			res.status(404).send(`User with id ${req.params.uid} not found!`);
+		}
 	} catch (error) {
 		next(error);
 	}

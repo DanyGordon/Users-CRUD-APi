@@ -15,9 +15,8 @@ exports.getCarById = async (req, res, next) => {
 
 exports.updateCarById = async (req, res, next) => {
 	try {
-		const car = await Cars.findById(req.params.carId);
-		if (car !== null) {
-			const updatedCar = await Cars.findByIdAndUpdate(req.params.carId, { $set: req.body }, { new: true }).populate('owner');
+		const updatedCar = await Cars.findByIdAndUpdate(req.params.carId, { $set: req.body }, { new: true }).populate('owner');
+		if (updatedCar !== null) {
 			res.status(200).json(updatedCar);
 		} else {
 			res.status(404).send(`Cars with id ${req.params.carId} not found!`);
@@ -29,13 +28,8 @@ exports.updateCarById = async (req, res, next) => {
 
 exports.deleteCarById = async (req, res, next) => {
 	try {
-		const car = await Cars.findById(req.params.carId);
-		if (car !== null) {
-			await Cars.findByIdAndRemove(req.params.carId);
-			res.status(204).end();
-		} else {
-			res.status(404).send(`Cars with id ${req.params.carId} not found!`);
-		}
+		await Cars.findByIdAndRemove(req.params.carId);
+		res.status(204).end();
 	} catch (error) {
 		next(error);
 	}

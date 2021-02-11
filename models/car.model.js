@@ -5,15 +5,16 @@ const Schema = mongoose.Schema;
 const carSchema = new Schema({
   model: {
     type: String,
-    require: true
+    required: true
   },
   year: {
     type: Number,
-    require: true
+    required: true
   },
   carNumber: {
     type: String,
-    require: true
+    required: true,
+    unique: true
   },
   owner: {
     type: Schema.Types.ObjectId,

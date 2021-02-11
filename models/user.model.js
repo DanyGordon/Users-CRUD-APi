@@ -5,8 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name: {
     type: String,
-    require: true,
-    default: ''
+    required: true
   },
   cars: [
     { type: Schema.Types.ObjectId, ref: 'Car' }
